@@ -131,12 +131,12 @@ function callAPI(userInput, sender) {
 function parseJson(json) {
 	let responseObj = JSON.parse(json);
 	var array = [];
-	responseObj.t1objects.forEach(function(t1) {
-		var body = t1.id;
+	responseObj.entities.forEach(function(entity) {
+		var keyWord = entity.name;
 		
 		// var wordDef = entity.definition;
 		// var wordAndDef = "This is the definition of " + keyWord + ":\n" + wordDef;
-		array.push(body);
+		array.push(keyWord);
 	}, this);
 	return array.join("-");
 }
