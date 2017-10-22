@@ -6,7 +6,6 @@ import (
 	language "cloud.google.com/go/language/apiv1"
 	languagepb "google.golang.org/genproto/googleapis/cloud/language/v1"
 	"context"
-	"fmt"
 )
 
 type RequestObject struct {
@@ -74,26 +73,6 @@ func TextHandler(w http.ResponseWriter, r *http.Request) {
 
 func handleInput(ctx context.Context, client *language.Client, requestObject *RequestObject) ([]*languagepb.Entity, error) {
 	input := requestObject.Input
-	analyzedSyntax, err := AnalyzeSyntax(ctx, client, input)
-	if err != nil {
-		fmt.Println("Got an error@@@@@@@@@@@@@@@@@@@")
-		return nil, err
-	}
-	for _, c := range analyzedSyntax.Tokens {
-		parseLabel := c.DependencyEdge.Label
-		fmt.Println("Parse label:")
-		fmt.Println(parseLabel)
-		if parseLabel == languagepb.DependencyEdge_NSUBJ {
-			fmt.Println("Got in")
-			arr := []*languagepb.Entity{}
-			p := languagepb.Entity{
-				Name: input,
-			}
-			arr = append(arr, &p)
-			fmt.Println(len(arr))
-			return arr, nil
-		}
-	}
 
 	//url := requestObject.url
 	resp, err := AnalyzeEntities(ctx, client, input)
