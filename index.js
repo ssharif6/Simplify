@@ -133,7 +133,7 @@ function parseJson(json) {
 	var array = [];
 	var t1objectArr = responseObj["t1objects"];
 	t1objectArr.forEach(function(t1) {
-		array.push(t1.id);
+		array.push(t1.body);
 	});
 	// responseObj.entities.forEach(function(entity) {
 	// 	var keyWord = entity.name;
