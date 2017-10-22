@@ -133,7 +133,7 @@ function parseJson(json) {
 	var array = [];
 	var t1objectArr = responseObj["t1objects"];
 	t1objectArr.forEach(function(t1) {
-		array.push(t1.id);
+		array.push(t1.body);
 	});
 	// responseObj.entities.forEach(function(entity) {
 	// 	var keyWord = entity.name;
@@ -142,7 +142,7 @@ function parseJson(json) {
 	// 	// var wordAndDef = "This is the definition of " + keyWord + ":\n" + wordDef;
 	// 	array.push(keyWord);
 	// }, this);
-	return array.join("-");
+	return array.join("\n");
 }
 
 // var obj = parseMessage("", "http://cdn2-www.dogtime.com/assets/uploads/gallery/shiba-inu-puppies/shiba-inu-puppy-13.jpg");
