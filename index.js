@@ -161,6 +161,7 @@ function callImageApi(userInput, sender) {
 function parseImageJson(json, sender) {
 	console.log("GOT TO PARSE")
 	let responseObj = JSON.parse(json);
+	console.log(responseObj);
 	var array = [];
 	var texts = responseObj["texts"];
 	if (texts.length > 0) {
