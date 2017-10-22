@@ -15,77 +15,44 @@ func init() {
 	_ = os.Open
 }
 
-// detectFaces gets faces from the Vision API for an image at the given file path.
-func detectFaces(w io.Writer, file string) error {
-	ctx := context.Background()
-
-	client, err := vision.NewImageAnnotatorClient(ctx)
-	if err != nil {
-		return err
-	}
-
-	f, err := os.Open(file)
-	if err != nil {
-		return err
-	}
-	defer f.Close()
-
-	image, err := vision.NewImageFromReader(f)
-	if err != nil {
-		return err
-	}
-	annotations, err := client.DetectFaces(ctx, image, nil, 10)
-	if err != nil {
-		return err
-	}
-	if len(annotations) == 0 {
-		fmt.Fprintln(w, "No faces found.")
-	} else {
-		fmt.Fprintln(w, "Faces:")
-		for i, annotation := range annotations {
-			fmt.Fprintln(w, "  Face", i)
-			fmt.Fprintln(w, "    Anger:", annotation.AngerLikelihood)
-			fmt.Fprintln(w, "    Joy:", annotation.JoyLikelihood)
-			fmt.Fprintln(w, "    Surprise:", annotation.SurpriseLikelihood)
-		}
-	}
-	return nil
-}
-
 // detectLabels gets labels from the Vision API for an image at the given file path.
-func detectLabels(w io.Writer, file string) error {
+func DetectLabels(file string) ([]string, error) {
 	ctx := context.Background()
 
 	client, err := vision.NewImageAnnotatorClient(ctx)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	f, err := os.Open(file)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	defer f.Close()
 
 	image, err := vision.NewImageFromReader(f)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	annotations, err := client.DetectLabels(ctx, image, nil, 10)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
+	stringSlice := make([]string, 0)
+	//
+	//for _, c := range texts {
+	//	stringSlice = append(stringSlice, c.Description)
+	//}
 	if len(annotations) == 0 {
-		fmt.Fprintln(w, "No labels found.")
 	} else {
-		fmt.Fprintln(w, "Labels:")
+
 		for _, annotation := range annotations {
-			fmt.Fprintln(w, annotation.Description)
+			stringSlice = append(stringSlice, annotation.Description)
 		}
 	}
 
-	return nil
+	return stringSlice, nil
 }
 
 // detectLandmarks gets landmarks from the Vision API for an image at the given file path.
@@ -125,7 +92,7 @@ func detectLandmarks(w io.Writer, file string) error {
 }
 
 // detectText gets text from the Vision API for an image at the given file path.
-func DetectText(file string) (*ImageResponseObject, error) {
+func DetectText(file string) ([]string, error) {
 	ctx := context.Background()
 
 	client, err := vision.NewImageAnnotatorClient(ctx)
@@ -161,11 +128,11 @@ func DetectText(file string) (*ImageResponseObject, error) {
 		}
 	}
 
-	r := &ImageResponseObject{
-		Texts: stringSlice,
-	}
+	//r := &ImageResponseObject{
+	//	Texts: stringSlice,
+	//}
 
-	return r, nil
+	return stringSlice, nil
 }
 
 // detectDocumentText gets the full document text from the Vision API for an image at the given file path.

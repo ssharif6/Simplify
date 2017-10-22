@@ -11,6 +11,7 @@ import (
 
 type ImageResponseObject struct {
 	Texts []string `json:"texts,omitempty"`
+	Labels []string `json:"labels,omitempty"`
 }
 
 func ImageHandler(w http.ResponseWriter, r *http.Request) {
@@ -50,10 +51,20 @@ func ImageHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		r, err := DetectText("/tmp/asdf.jpg")
+		r := &ImageResponseObject{}
+		detectTextResp, err := DetectText("/tmp/asdf.jpg")
 		if err != nil {
 			http.Error(w, "error with DETECT TEXTY", http.StatusInternalServerError)
+		}
 
+		if len(detectTextResp) > 5 {
+			r.Texts = detectTextResp
+		} else {
+			detectLabelsResp, err := DetectLabels("/tmp/asdf.jpg")
+			if err != nil {
+				http.Error(w, "error with DETECT TEXTY", http.StatusInternalServerError)
+			}
+			r.Labels = detectLabelsResp
 		}
 
 		jsonErr := json.NewEncoder(w).Encode(r)
