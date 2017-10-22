@@ -136,7 +136,7 @@ function parseJson(json) {
 	for (var i = 0; i < t1objectArr.length; i++) {
 		var t1 = t1objectArr[i];
 		console.log(t1["body"])
-		array.push(t1["body"]);
+		array.push(t1["body"].substring(0,15));
 	}
 	// responseObj.entities.forEach(function(entity) {
 	// 	var keyWord = entity.name;
