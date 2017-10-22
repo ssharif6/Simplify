@@ -168,9 +168,11 @@ function parseImageJson(json, sender) {
 	if (texts && texts.length > 0) {
 		for(var i = 1; i < texts.length; i++) {
 			var obj = texts[i];
-			if (sum + obj.length <= 630) {
+			if (sum + obj.length <= 300) {
 				sum += obj.length
 				array.push(obj);
+			} else {
+				break
 			}
 		}
 	}
