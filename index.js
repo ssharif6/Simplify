@@ -80,7 +80,7 @@ function sendTextMessage(sender, text) {
 function parseMessage(text, url) {
 	var obj = {
 		"input": text,
-		"url": ""
+		"url": url
 	}
 	return JSON.stringify(obj);
 }
@@ -125,16 +125,14 @@ function parseJson(json) {
 	var array = [];
 	responseObj.forEach(function(entity) {
 		var keyWord = entity.name;
-		// var wordDef = entity.definition;
-		// var wordAndDef = "This is the definition of " + keyWord + ":\n" + wordDef;
-		// array.push(wordAndDef);
-		array.push(keyWord);
+		var wordDef = entity.definition;
+		var wordAndDef = "This is the definition of " + keyWord + ":\n" + wordDef;
+		array.push(wordAndDef);
 	}, this);
-	console.log(array);
 	return array.join("\n");
 }
 
-var obj = parseMessage("What is a class?");
-var x = callAPI(obj);
-console.log(x);
+// var obj = parseMessage("", "http://cdn2-www.dogtime.com/assets/uploads/gallery/shiba-inu-puppies/shiba-inu-puppy-13.jpg");
+// var x = callAPI(obj);
+// console.log(x);
 
