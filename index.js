@@ -52,12 +52,14 @@ app.post('/webhook/', function (req, res) {
 		// 		let picture = parseMessage("", url);
 		// 		let inputRequest = callAPI(picture, sender);
 		// 	} 
-		//   }
+	//  }
     }
     res.sendStatus(200)
 });
 
 function sendTextMessage(sender, text) {
+	const token = "EAABwawgEld0BAA55798wuGcbc6JxAZAl4fOFyTimgOjcpydX1rosgMim5hJmxZCTl4XTBWel8sY8Rca13IJannOReFmZAywmcfiqOqY65DPVfFAmDqWhyBWoaT55ARVkIooT7x2OeiNSr3AeeGgO4nQsGuoHf3KZBVCdyVqwEAZDZD";
+	console.log(token);
     let messageData = { text:text }
     request({
 	    url: 'https://graph.facebook.com/v2.6/me/messages',
@@ -85,7 +87,6 @@ function parseMessage(text, url) {
 	return JSON.stringify(obj);
 }
 
-const token = process.env.FB_TOKEN;
 
 function callAPI(userInput, sender) {
 	var https = require("https");
@@ -103,12 +104,16 @@ function callAPI(userInput, sender) {
 		// console.log('Headers: ' + JSON.stringify(res.headers));
 		res.setEncoding('utf8');
 		var response = "";		
+		var shit = "";
 		res.on('data', function(body) {
 		//   console.log('Body: ' + body);
-			response += parseJson(body);
+			// console.log(body);
+			shit += body;
+			// response += parseJson(body);
 		});
 		res.on('end', function() {
-			sendTextMessage(sender, response);
+
+			sendTextMessage(sender, parseJson(shit));
 		  });
 	});
 	req.on('error', function(e) {
@@ -123,16 +128,20 @@ function callAPI(userInput, sender) {
 function parseJson(json) {
 	let responseObj = JSON.parse(json);
 	var array = [];
-	responseObj.forEach(function(entity) {
+	responseObj.entities.forEach(function(entity) {
 		var keyWord = entity.name;
-		var wordDef = entity.definition;
-		var wordAndDef = "This is the definition of " + keyWord + ":\n" + wordDef;
-		array.push(wordAndDef);
+		// var wordDef = entity.definition;
+		// var wordAndDef = "This is the definition of " + keyWord + ":\n" + wordDef;
+		array.push(keyWord);
 	}, this);
-	return array.join("\n");
+	return array.join("-");
 }
 
 // var obj = parseMessage("", "http://cdn2-www.dogtime.com/assets/uploads/gallery/shiba-inu-puppies/shiba-inu-puppy-13.jpg");
 // var x = callAPI(obj);
 // console.log(x);
+
+var shit = parseMessage("What is linux kernel?", "");
+var callShit = callAPI(shit);
+// console.log(callShit);
 
