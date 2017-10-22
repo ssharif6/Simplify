@@ -201,7 +201,7 @@ function parseJson(json, sender) {
 	let responseObj = JSON.parse(json);
 	var array = [];
 	var t1objectArr = responseObj["t1objects"];
-	if (t1ObjectArr && t1objectArr.length > 0) {
+	if (t1objectArr && t1objectArr.length > 0) {
 		for (var i = 0; i < 1; i++) {
 			var t1 = t1objectArr[i];
 			if (t1) {
