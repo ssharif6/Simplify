@@ -90,7 +90,7 @@ function parseMessage(text, url) {
 	return JSON.stringify(obj);
 }
 
-function callAPI(userInput, sender) {
+function callImageApi(userInput, sender) {
 	var https = require("https");
 	var options = {
 	  hostname: 'simplify.api.shaheensharifian.me',
@@ -112,7 +112,7 @@ function callAPI(userInput, sender) {
 		});
 		res.on('end', function() {
 
-			parseJson(shit, sender);
+			parseImageJson(shit, sender);
 		  });
 	});
 	req.on('error', function(e) {
