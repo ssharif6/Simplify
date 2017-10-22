@@ -7,9 +7,6 @@ import (
 	languagepb "google.golang.org/genproto/googleapis/cloud/language/v1"
 	"context"
 	"fmt"
-	"os"
-	"github.com/golang/protobuf/proto"
-	"log"
 )
 
 type RequestObject struct {
@@ -19,6 +16,7 @@ type RequestObject struct {
 
 type ResponseObject struct {
 	Entities []*languagepb.Entity `json:"entities,omitempty"`
+	T1Objects []*Eli5T1Model `json:"t1objects"`
 }
 
 func TextHandler(w http.ResponseWriter, r *http.Request) {
@@ -43,19 +41,34 @@ func TextHandler(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			http.Error(w, "Unable to connect to google cog services", http.StatusInternalServerError)
 		}
-		if client == nil {
-			fmt.Printf("client is NULL@@@@@@@@@@@@@@@@@@@@@")
-		}
 
-		entities, err := analyzeEntities(ctx, client, ro.Input)
+		entities, err := handleInput(ctx, client, ro)
 		if err != nil {
 			http.Error(w, "Unable to extract entities", http.StatusInternalServerError)
 		}
-		encodeErr := json.NewEncoder(w).Encode(entities)
+		eli5, err := QueryEli5(entities)
+		if err != nil {
+			fmt.Println("eli5 error @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+			http.Error(w, "unable to get eli5 responses", http.StatusInternalServerError)
+		}
+		t1, err := Query(eli5)
+		if err != nil {
+			fmt.Println("T1 ERROR")
+			http.Error(w, "unable to get eli5 responses", http.StatusInternalServerError)
+		}
+
+		fmt.Println("LENGTH")
+		fmt.Println(len(t1))
+
+		r := ResponseObject{
+			Entities: entities,
+			T1Objects: t1,
+		}
+
+		encodeErr := json.NewEncoder(w).Encode(r)
 		if encodeErr != nil {
 			http.Error(w, "error encoding json", http.StatusInternalServerError)
 		}
-
 	}
 
 }
@@ -63,7 +76,7 @@ func TextHandler(w http.ResponseWriter, r *http.Request) {
 func handleInput(ctx context.Context, client *language.Client, requestObject *RequestObject) ([]*languagepb.Entity, error) {
 	input := requestObject.Input
 	//url := requestObject.url
-	resp, err := analyzeEntities(ctx, client, input)
+	resp, err := AnalyzeEntities(ctx, client, input)
 	if err != nil {
 		return nil, err
 	}
@@ -71,56 +84,3 @@ func handleInput(ctx context.Context, client *language.Client, requestObject *Re
 	return entities, nil
 }
 
-func usage(msg string) {
-	fmt.Fprintln(os.Stderr, msg)
-	fmt.Fprintln(os.Stderr, "usage: analyze [entities|sentiment|syntax|entitysentiment] <text>")
-	os.Exit(2)
-}
-
-func analyzeEntities(ctx context.Context, client *language.Client, text string) (*languagepb.AnalyzeEntitiesResponse, error) {
-	if client == nil || ctx == nil{
-		fmt.Println("it's null @@@@@@@@@@@@@@@@@@@@@@")
-	}
-	return client.AnalyzeEntities(ctx, &languagepb.AnalyzeEntitiesRequest{
-		Document: &languagepb.Document{
-			Source: &languagepb.Document_Content{
-				Content: text,
-			},
-			Type: languagepb.Document_PLAIN_TEXT,
-		},
-		EncodingType: languagepb.EncodingType_UTF8,
-	})
-}
-
-func analyzeSentiment(ctx context.Context, client *language.Client, text string) (*languagepb.AnalyzeSentimentResponse, error) {
-	return client.AnalyzeSentiment(ctx, &languagepb.AnalyzeSentimentRequest{
-		Document: &languagepb.Document{
-			Source: &languagepb.Document_Content{
-				Content: text,
-			},
-			Type: languagepb.Document_PLAIN_TEXT,
-		},
-	})
-}
-
-func analyzeSyntax(ctx context.Context, client *language.Client, text string) (*languagepb.AnnotateTextResponse, error) {
-	return client.AnnotateText(ctx, &languagepb.AnnotateTextRequest{
-		Document: &languagepb.Document{
-			Source: &languagepb.Document_Content{
-				Content: text,
-			},
-			Type: languagepb.Document_PLAIN_TEXT,
-		},
-		Features: &languagepb.AnnotateTextRequest_Features{
-			ExtractSyntax: true,
-		},
-		EncodingType: languagepb.EncodingType_UTF8,
-	})
-}
-
-func printResp(v proto.Message, err error) {
-	if err != nil {
-		log.Fatal(err)
-	}
-	proto.MarshalText(os.Stdout, v)
-}
