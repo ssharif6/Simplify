@@ -98,9 +98,6 @@ func QueryEli5(entities []*languagepb.Entity) ([]*Eli5T3Model, error) {
 		responseObjs = append(responseObjs, eli5Res)
 	}
 
-	fmt.Println("QueryEli5")
-	fmt.Println(responseObjs)
-
 	return getEli5Response(responseObjs), nil
 }
 
@@ -111,8 +108,7 @@ func Query(models []*Eli5T3Model) ([]*Eli5T1Model, error) {
 	for _, c := range models {
 		url := c.Url
 
-		req, err := http.NewRequest("GET", url + ".json?sort=top", nil)
-		//req, err := http.NewRequest("GET","https://www.reddit.com/r/explainlikeimfive/comments/5u2nkx/eli5_what_is_a_linux_kernel/.json?sort=top", nil)
+		req, err := http.NewRequest("GET", url + ".json?sort=confidence", nil)
 		req.Header.Set("User-Agent", "your bot 0.1")
 		if err != nil {
 			return nil, err
@@ -144,10 +140,8 @@ func Query(models []*Eli5T3Model) ([]*Eli5T1Model, error) {
 }
 
 func extractT1Objects(models [][]T1SearchModel) ([]*Eli5T1Model) {
-	fmt.Println("GOT TO EXTRACT T1 OBJECTS")
 	responseObjs := []*Eli5T1Model{}
 	for _, c := range models {
-		fmt.Println("C")
 		for _, x := range c {
 			children := x.Data.Children
 			for _, d := range children {
@@ -171,7 +165,6 @@ func extractT1Objects(models [][]T1SearchModel) ([]*Eli5T1Model) {
 
 // TODO Error handling
 func getEli5Response(eli5SearchObjects []*T3SearchModel) ([]*Eli5T3Model) {
-	fmt.Println("Get eli5 response")
 	responseObjs := []*Eli5T3Model{}
 	for _, c := range eli5SearchObjects {
 		children := c.Data.Children
