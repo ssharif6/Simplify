@@ -137,7 +137,7 @@ function parseJson(json) {
 		var t1 = t1objectArr[i];
 		console.log(t1["body"])
 		if (t1["body"].length >= 500) {
-			array.push(t1["body"].substring(0,500));
+			array.push(t1["body"].substring(0,300));
 		} else {
 			array.push(t1["body"]);	
 		}
