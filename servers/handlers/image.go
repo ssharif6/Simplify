@@ -10,7 +10,7 @@ import (
 )
 
 type ImageResponseObject struct {
-	Texts []string
+	Texts []string `json:"texts,omitempty"`
 }
 
 func ImageHandler(w http.ResponseWriter, r *http.Request) {
