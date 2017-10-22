@@ -34,8 +34,10 @@ app.listen(app.get('port'), function() {
 app.post('/webhook/', function (req, res) {
     let messaging_events = req.body.entry[0].messaging
     for (let i = 0; i < messaging_events.length; i++) {
-	    let event = req.body.entry[0].messaging[i]
-	    let sender = event.sender.id
+		let event = req.body.entry[0].messaging[i]
+
+		let sender = event.sender.id
+		console.log("id" + sender.id);
 	    if (event.message && event.message.text) {
 			let text = event.message.text
 			let input = parseMessage(text, "");
@@ -58,6 +60,7 @@ app.post('/webhook/', function (req, res) {
 });
 
 function sendTextMessage(sender, text) {
+	console.log(sender);
 	const token = "EAABwawgEld0BADVm3znFKiZA9jJjswSW1gNFUhqEFROOWi2qSOvQtZBtNCo1tOKdLif22pBlQ9KA5Nxio08a0smjGT44OGVqyQjUT5t0cYZABTaGNrKZCZCKdw9yWFmG8FQuktzjEZAehIvXvqJ3OdxTOGIHG3ZA9a7137eyspJZAwZDZD";
 	console.log(token);
     let messageData = { text:text }
@@ -141,7 +144,7 @@ function parseJson(json) {
 // var x = callAPI(obj);
 // console.log(x);
 
-var shit = parseMessage("What is linux kernel?", "");
-var callShit = callAPI(shit);
+// var shit = parseMessage("What is linux kernel?", "");
+// var callShit = callAPI(shit, );
 // console.log(callShit);
 

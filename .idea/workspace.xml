@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="6273ad31-b14b-42d0-af61-1cb2f015b468" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/servers/handlers/query.go" afterPath="$PROJECT_DIR$/servers/handlers/query.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.js" afterPath="$PROJECT_DIR$/index.js" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
