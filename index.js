@@ -131,13 +131,17 @@ function callAPI(userInput, sender) {
 function parseJson(json) {
 	let responseObj = JSON.parse(json);
 	var array = [];
-	responseObj.entities.forEach(function(entity) {
-		var keyWord = entity.name;
+	var t1objectArr = responseObj["t1objects"];
+	t1objectArr.forEach(function(t1) {
+		array.push(t1.id);
+	});
+	// responseObj.entities.forEach(function(entity) {
+	// 	var keyWord = entity.name;
 		
-		// var wordDef = entity.definition;
-		// var wordAndDef = "This is the definition of " + keyWord + ":\n" + wordDef;
-		array.push(keyWord);
-	}, this);
+	// 	// var wordDef = entity.definition;
+	// 	// var wordAndDef = "This is the definition of " + keyWord + ":\n" + wordDef;
+	// 	array.push(keyWord);
+	// }, this);
 	return array.join("-");
 }
 
