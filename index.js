@@ -39,11 +39,12 @@ app.post('/webhook/', function (req, res) {
 	    if (event.message && event.message.text) {
 			let text = event.message.text
 			// PARSE TEXT HERE
-			let someObj = parseText(text);
+			let input = parseText(text);
+			let inputRequest = callAPI(input);
 			// POST TO SERVER
-			// var response = handleResopns(respons);
+			// let response = responseHandle();
 
-		    sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200))
+		    sendTextMessage(sender, inputRequest);
 	    }
     }
     res.sendStatus(200)
@@ -74,7 +75,59 @@ function parseText(text) {
 		"input": text,
 		"url": ""
 	}
-	return obj;
+	return JSON.stringify(obj);
 }
 
 const token = process.env.FB_TOKEN;
+
+function callAPI(userInput) {
+	var https = require("https");
+	var options = {
+	  hostname: 'simplify.api.shaheensharifian.me',
+	  path: '/v1/simplify/text',
+	  method: 'POST',
+	  headers: {
+		  'Content-Type': 'application/json',
+	  }
+	};
+	var req = https.request(options, function(res) {
+		// console.log('Status: ' + res.statusCode);
+		// console.log('Headers: ' + JSON.stringify(res.headers));
+		res.setEncoding('utf8');
+		res.on('data', function (body) {
+		//   console.log('Body: ' + body);
+			parseJson(body);
+		});
+	  });
+	  req.on('error', function(e) {
+		console.log('problem with request: ' + e.message);
+	  });
+	  // write data to request body
+	//   req.write('{"string": "Hello, World"}');
+	  req.write(userInput);
+	  req.end();
+
+}
+
+function parseJson(json) {
+	let responseObj = JSON.parse(json);
+	responseObj.entities.forEach(function(entity) {
+		console.log(entity.name);
+	}, this);
+}
+
+var obj = parseText("What is the difference between linux kernel and shell?");
+callAPI(obj);
+
+// let test = {
+// 	"input": "Hello there friend!",
+// 	"url": ""
+// }
+
+// console.log(callAPI(test));
+
+// function responseHandle(responseObj) {
+// 	let json = JSON.parse(responseObj);
+
+// }
+
