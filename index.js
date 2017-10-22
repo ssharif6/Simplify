@@ -61,7 +61,7 @@ app.post('/webhook/', function (req, res) {
 
 function sendTextMessage(sender, text) {
 	console.log(sender);
-	const token = "EAAQOOGWd6nEBAMiZAGLXLwEveRNhPOJQNtBDnFxDC6yS31TkrEhQgOZCHbAlqwZBBMI4nav152XaJBSrj0uElg91zHczZCh3ZC9nJYi1NB8SAZAyDhZBlVTKmi1t9FvJHh3OfmZAAHJgq1XuckmGn2lEagLYJK8npK4yyQvah9lurQZDZD";
+	const token = process.env.FB_TOKEN;
 	console.log(token);
     let messageData = { text:text }
     request({
