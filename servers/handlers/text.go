@@ -90,6 +90,7 @@ func handleInput(ctx context.Context, client *language.Client, requestObject *Re
 				Name: input,
 			}
 			arr = append(arr, &p)
+			fmt.Println(len(arr))
 			return arr, nil
 		}
 	}

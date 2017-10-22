@@ -176,7 +176,6 @@ func getEli5Response(eli5SearchObjects []*T3SearchModel) ([]*Eli5T3Model) {
 	for _, c := range eli5SearchObjects {
 		children := c.Data.Children
 		if len(children) > 0 {
-
 			for i := 0; i < 5; i++ {
 				obj := children[i].Data
 				t3 := Eli5T3Model{

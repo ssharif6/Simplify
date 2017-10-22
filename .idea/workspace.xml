@@ -38,11 +38,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="text.go" pinned="false" current-in-tab="false">
+      <file leaf-file-name="text.go" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/servers/handlers/text.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="30" column="14" lean-forward="false" selection-start-line="30" selection-start-column="14" selection-end-line="30" selection-end-column="14" />
+            <state relative-caret-position="586">
+              <caret line="76" column="27" lean-forward="false" selection-start-line="76" selection-start-column="27" selection-end-line="76" selection-end-column="27" />
               <folding>
                 <element signature="e#18#192#0" expanded="true" />
               </folding>
@@ -60,11 +60,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="query.go" pinned="false" current-in-tab="true">
+      <file leaf-file-name="query.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/servers/handlers/query.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="782">
-              <caret line="152" column="0" lean-forward="false" selection-start-line="152" selection-start-column="0" selection-end-line="152" selection-end-column="0" />
+            <state relative-caret-position="188">
+              <caret line="73" column="52" lean-forward="true" selection-start-line="73" selection-start-column="52" selection-end-line="73" selection-end-column="52" />
               <folding>
                 <element signature="e#18#161#0" expanded="true" />
               </folding>
@@ -117,7 +117,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>colla</find>
       <find>submi</find>
       <find>body_html</find>
       <find>collapsed</find>
@@ -147,6 +146,7 @@
       <find>fmt.Prin</find>
       <find>fmt.Printl</find>
       <find>LENGTH OF</find>
+      <find>getEli5</find>
     </findStrings>
   </component>
   <component name="GOROOT" path="/usr/local/go" />
@@ -164,8 +164,8 @@
         <option value="$PROJECT_DIR$/servers/provision.sh" />
         <option value="$PROJECT_DIR$/servers/handlers/googleCogServices.go" />
         <option value="$PROJECT_DIR$/servers/Dockerfile" />
-        <option value="$PROJECT_DIR$/servers/handlers/text.go" />
         <option value="$PROJECT_DIR$/servers/handlers/query.go" />
+        <option value="$PROJECT_DIR$/servers/handlers/text.go" />
       </list>
     </option>
   </component>
@@ -533,22 +533,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/servers/handlers/text.go">
+    <entry file="file://$PROJECT_DIR$/servers/handlers/query.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="30" column="14" lean-forward="false" selection-start-line="30" selection-start-column="14" selection-end-line="30" selection-end-column="14" />
+        <state relative-caret-position="188">
+          <caret line="73" column="52" lean-forward="true" selection-start-line="73" selection-start-column="52" selection-end-line="73" selection-end-column="52" />
           <folding>
-            <element signature="e#18#192#0" expanded="true" />
+            <element signature="e#18#161#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/servers/handlers/query.go">
+    <entry file="file://$PROJECT_DIR$/servers/handlers/text.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="782">
-          <caret line="152" column="0" lean-forward="false" selection-start-line="152" selection-start-column="0" selection-end-line="152" selection-end-column="0" />
+        <state relative-caret-position="586">
+          <caret line="76" column="27" lean-forward="false" selection-start-line="76" selection-start-column="27" selection-end-line="76" selection-end-column="27" />
           <folding>
-            <element signature="e#18#161#0" expanded="true" />
+            <element signature="e#18#192#0" expanded="true" />
           </folding>
         </state>
       </provider>

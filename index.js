@@ -132,7 +132,7 @@ function parseJson(json, sender) {
 
 	for (var i = 0; i < 2; i++) {
 		var t1 = t1objectArr[i];
-		if (t1["body"]) {
+		if (t1) {
 			console.log(t1["body"])
 			if (t1["body"].length >= 640) {
 				sendTextMessage(sender, t1["body"].substring(0,600));
