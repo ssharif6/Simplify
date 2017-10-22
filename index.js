@@ -41,7 +41,7 @@ app.post('/webhook/', function (req, res) {
 	    if (event.message && event.message.text) {
 			let text = event.message.text
 			let input = parseMessage(text, "");
-			let inputRequest = callAPI(input, sender);
+			callAPI(input, sender);
 		}	
 		// Checking for attachments
 		else if (event.message && event.message.attachments) {
@@ -52,7 +52,7 @@ app.post('/webhook/', function (req, res) {
 				let url = attachment.payload.url;
 				console.log(url);
 				let picture = parseMessage("empty", url);
-				let inputRequest = callImageApi(picture, sender);
+				callImageApi(picture, sender);
 			} 
 	 	}
     }
@@ -89,41 +89,6 @@ function parseMessage(text, url) {
 	}
 	return JSON.stringify(obj);
 }
-
-function callImageApi(userInput, sender) {
-	var https = require("https");
-	var options = {
-	  hostname: 'simplify.api.shaheensharifian.me',
-	  path: '/v1/simplify/image',
-	  method: 'POST',
-	  headers: {
-		  'Content-Type': 'application/json',
-	  }
-	};
-	
-	var req = https.request(options, function(res) {
-		// console.log('Status: ' + res.statusCode);
-		// console.log('Headers: ' + JSON.stringify(res.headers));
-		res.setEncoding('utf8');
-		var response = "";		
-		var shit = "";
-		res.on('data', function(body) {
-			shit += body;
-		});
-		res.on('end', function() {
-
-			parseImageJson(shit, sender);
-		  });
-	});
-	req.on('error', function(e) {
-	console.log('problem with request: ' + e.message);
-	});
-	// write data to request body
-//   req.write('{"string": "Hello, World"}');
-	req.write(userInput);
-	req.end();
-}
-
 
 function callAPI(userInput, sender) {
 	var https = require("https");
@@ -226,5 +191,4 @@ function parseJson(json, sender) {
 
 	}
 
-	return array.join("\n");
 }
