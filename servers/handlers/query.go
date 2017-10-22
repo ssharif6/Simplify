@@ -7,10 +7,11 @@ import (
 	languagepb "google.golang.org/genproto/googleapis/cloud/language/v1"
 	"bytes"
 	"log"
+	"net/url"
 )
 
 const eli5BaseUrl = "https://www.reddit.com/r/explainlikeimfive/search.json?q="
-const eli5SuffixUrl = "restrict_sr=on&sort=relevance&t=all"
+const eli5SuffixUrl = "restrict_sr=on&sort=relevance"
 
 type Eli5Response struct {
 	Url string
@@ -70,8 +71,9 @@ func QueryEli5(entities []*languagepb.Entity) ([]*Eli5T3Model, error) {
 	responseObjs := []*T3SearchModel{}
 	client := &http.Client{}
 	for _, c := range entities {
-
-		req, err := http.NewRequest("GET", eli5BaseUrl+c.Name+"&"+eli5SuffixUrl, nil)
+		fmt.Println("FUCKING SHIT")
+		fmt.Println(eli5BaseUrl+c.Name+"&"+eli5SuffixUrl)
+		req, err := http.NewRequest("GET", eli5BaseUrl+url.QueryEscape(c.Name)+"&"+eli5SuffixUrl, nil)
 		if err != nil {
 			log.Fatalln(err)
 		}
@@ -86,6 +88,7 @@ func QueryEli5(entities []*languagepb.Entity) ([]*Eli5T3Model, error) {
 		eli5Res := &T3SearchModel{}
 		buf := new(bytes.Buffer)
 		buf.ReadFrom(resp.Body)
+		fmt.Println(buf.String())
 
 		//s := buf.String() // Does a complete copy of the bytes in the buffer.
 		decodeErr := json.NewDecoder(buf).Decode(eli5Res)
@@ -110,6 +113,7 @@ func Query(models []*Eli5T3Model) ([]*Eli5T1Model, error) {
 	responseObjs := [][]T1SearchModel{}
 	for _, c := range models {
 		url := c.Url
+		fmt.Println("FUCKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK")
 		fmt.Println(url)
 
 		req, err := http.NewRequest("GET", url + ".json?sort=top", nil)
@@ -131,15 +135,12 @@ func Query(models []*Eli5T3Model) ([]*Eli5T1Model, error) {
 
 		//s := buf.String() // Does a complete copy of the bytes in the buffer.
 		keys := make([]T1SearchModel, 0)
-		eli5Res := &T1SearchModel{}
 		//decodeErr := json.NewDecoder(buf).Decode(eli5Res)
 		decodeErr := json.Unmarshal(buf.Bytes(), &keys)
 		if decodeErr != nil {
 			fmt.Printf("There was an error decoding the json. err = %s", decodeErr)
 			fmt.Errorf("error decoding json")
 		}
-		fmt.Println("kanye")
-		fmt.Println(*eli5Res)
 		responseObjs = append(responseObjs, keys)
 	}
 
@@ -160,11 +161,8 @@ func extractT1Objects(models [][]T1SearchModel) ([]*Eli5T1Model) {
 			fmt.Println("LENGTH OF CHILDREN")
 			fmt.Println(len(children))
 			for _, d := range children {
-				fmt.Println(d.Kind)
 				if d.Kind == "t1" {
 					data := d.Data
-					fmt.Println("DATA@#@@@@@@")
-					fmt.Println(data)
 					t1 := Eli5T1Model{
 						Ups:   data.Ups,
 						Score: data.Score,
@@ -178,10 +176,6 @@ func extractT1Objects(models [][]T1SearchModel) ([]*Eli5T1Model) {
 
 		}
 	}
-	fmt.Println("GOT TO END OF EXTRACT T1 OBJECTS")
-	fmt.Println("LENGTH OF RESPONSEOBJS")
-	fmt.Println(len(responseObjs))
-
 	return responseObjs
 }
 
@@ -190,19 +184,11 @@ func getEli5Response(eli5SearchObjects []*T3SearchModel) ([]*Eli5T3Model) {
 	fmt.Println("Get eli5 response")
 	responseObjs := []*Eli5T3Model{}
 	for _, c := range eli5SearchObjects {
-		fmt.Println("CO OBJECT")
-		fmt.Println(c.Data.Children)
 		children := c.Data.Children
 		if len(children) > 0 {
 
-			fmt.Println("THIS IS THE LENGHT OF ELI5RESPONSE")
-			fmt.Println(len(children))
-			for i := 0; i < len(c.Data.Children); i++ {
+			for i := 0; i < 5; i++ {
 				obj := children[i].Data
-				fmt.Println("CHILDREN OBJECT")
-				//fmt.Println(obj)
-				fmt.Println(obj.Id)
-				fmt.Println(obj.Score)
 				t3 := Eli5T3Model{
 					Downs: obj.Downs,
 					Id:    obj.Id,
@@ -217,8 +203,5 @@ func getEli5Response(eli5SearchObjects []*T3SearchModel) ([]*Eli5T3Model) {
 			fmt.Println("LENGTH IS 0")
 		}
 	}
-	fmt.Println("LENGTH OF ELI5RESPONSE")
-	fmt.Println(len(responseObjs))
-	fmt.Println("GOT TO END OF ELI5RESPONSE")
 	return responseObjs
 }
