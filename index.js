@@ -164,7 +164,7 @@ function parseImageJson(json, sender) {
 	console.log(responseObj);
 	var array = [];
 	var texts = responseObj["texts"];
-	if (texts.length > 0) {
+	if (texts && texts.length > 0) {
 		for(var i = 1; i < texts.length; i++) {
 			var obj = texts[i];
 			array.push(obj);
@@ -178,7 +178,7 @@ function parseJson(json, sender) {
 	let responseObj = JSON.parse(json);
 	var array = [];
 	var t1objectArr = responseObj["t1objects"];
-	if (t1objectArr.length > 0) {
+	if (t1ObjectArr && t1objectArr.length > 0) {
 		for (var i = 0; i < 1; i++) {
 			var t1 = t1objectArr[i];
 			if (t1) {
