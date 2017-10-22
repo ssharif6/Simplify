@@ -20,7 +20,7 @@ app.get('/', function (req, res) {
 
 // for Facebook verification
 app.get('/webhook/', function (req, res) {
-	if (req.query['hub.verify_token'] === 'my_voice_is_my_password_verify_me') {
+	if (req.query['hub.verify_token'] === process.env.VERIFY_TOKEN) {
 		res.send(req.query['hub.challenge'])
 	}
 	res.send('Error, wrong token')
@@ -37,7 +37,12 @@ app.post('/webhook/', function (req, res) {
 	    let event = req.body.entry[0].messaging[i]
 	    let sender = event.sender.id
 	    if (event.message && event.message.text) {
-		    let text = event.message.text
+			let text = event.message.text
+			// PARSE TEXT HERE
+			let someObj = parseText(text);
+			// POST TO SERVER
+			// var response = handleResopns(respons);
+
 		    sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200))
 	    }
     }
@@ -61,6 +66,15 @@ function sendTextMessage(sender, text) {
 		    console.log('Error: ', response.body.error)
 	    }
     })
+}
+
+// TODO: Eventually handle things that aren't text like stickers or images
+function parseText(text) {
+	var obj = {
+		"input": text,
+		"url": ""
+	}
+	return obj;
 }
 
 const token = process.env.FB_TOKEN;
