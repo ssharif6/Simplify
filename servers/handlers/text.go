@@ -42,23 +42,22 @@ func TextHandler(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, "Unable to connect to google cog services", http.StatusInternalServerError)
 		}
 
+
 		entities, err := handleInput(ctx, client, ro)
 		if err != nil {
 			http.Error(w, "Unable to extract entities", http.StatusInternalServerError)
 		}
+
 		eli5, err := QueryEli5(entities)
 		if err != nil {
-			fmt.Println("eli5 error @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-			http.Error(w, "unable to get eli5 responses", http.StatusInternalServerError)
-		}
-		t1, err := Query(eli5)
-		if err != nil {
-			fmt.Println("T1 ERROR")
 			http.Error(w, "unable to get eli5 responses", http.StatusInternalServerError)
 		}
 
-		fmt.Println("LENGTH")
-		fmt.Println(len(t1))
+		t1, err := Query(eli5)
+		if err != nil {
+			http.Error(w, "unable to get eli5 responses", http.StatusInternalServerError)
+		}
+
 
 		r := ResponseObject{
 			Entities: entities,
@@ -75,6 +74,26 @@ func TextHandler(w http.ResponseWriter, r *http.Request) {
 
 func handleInput(ctx context.Context, client *language.Client, requestObject *RequestObject) ([]*languagepb.Entity, error) {
 	input := requestObject.Input
+	analyzedSyntax, err := AnalyzeSyntax(ctx, client, input)
+	if err != nil {
+		fmt.Println("Got an error@@@@@@@@@@@@@@@@@@@")
+		return nil, err
+	}
+	for _, c := range analyzedSyntax.Tokens {
+		parseLabel := c.DependencyEdge.Label
+		fmt.Println("Parse label:")
+		fmt.Println(parseLabel)
+		if parseLabel == languagepb.DependencyEdge_NSUBJ {
+			fmt.Println("Got in")
+			arr := []*languagepb.Entity{}
+			p := languagepb.Entity{
+				Name: input,
+			}
+			arr = append(arr, &p)
+			return arr, nil
+		}
+	}
+
 	//url := requestObject.url
 	resp, err := AnalyzeEntities(ctx, client, input)
 	if err != nil {

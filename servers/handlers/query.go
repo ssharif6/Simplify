@@ -71,8 +71,7 @@ func QueryEli5(entities []*languagepb.Entity) ([]*Eli5T3Model, error) {
 	responseObjs := []*T3SearchModel{}
 	client := &http.Client{}
 	for _, c := range entities {
-		fmt.Println("FUCKING SHIT")
-		fmt.Println(eli5BaseUrl+c.Name+"&"+eli5SuffixUrl)
+		fmt.Println(eli5BaseUrl+url.QueryEscape(c.Name)+"&"+eli5SuffixUrl)
 		req, err := http.NewRequest("GET", eli5BaseUrl+url.QueryEscape(c.Name)+"&"+eli5SuffixUrl, nil)
 		if err != nil {
 			log.Fatalln(err)
@@ -88,7 +87,6 @@ func QueryEli5(entities []*languagepb.Entity) ([]*Eli5T3Model, error) {
 		eli5Res := &T3SearchModel{}
 		buf := new(bytes.Buffer)
 		buf.ReadFrom(resp.Body)
-		fmt.Println(buf.String())
 
 		//s := buf.String() // Does a complete copy of the bytes in the buffer.
 		decodeErr := json.NewDecoder(buf).Decode(eli5Res)
@@ -108,13 +106,10 @@ func QueryEli5(entities []*languagepb.Entity) ([]*Eli5T3Model, error) {
 
 func Query(models []*Eli5T3Model) ([]*Eli5T1Model, error) {
 	// Iterate through each model, perform http request, extract relevant data
-	fmt.Println("GOT TO QUERY")
 	client := &http.Client{}
 	responseObjs := [][]T1SearchModel{}
 	for _, c := range models {
 		url := c.Url
-		fmt.Println("FUCKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK")
-		fmt.Println(url)
 
 		req, err := http.NewRequest("GET", url + ".json?sort=top", nil)
 		//req, err := http.NewRequest("GET","https://www.reddit.com/r/explainlikeimfive/comments/5u2nkx/eli5_what_is_a_linux_kernel/.json?sort=top", nil)
@@ -144,9 +139,6 @@ func Query(models []*Eli5T3Model) ([]*Eli5T1Model, error) {
 		responseObjs = append(responseObjs, keys)
 	}
 
-
-	fmt.Println("LENGTH OF RESPONSE OBJCTS")
-	fmt.Println(len(responseObjs))
 	t1Objs := extractT1Objects(responseObjs)
 	return t1Objs, nil
 }
@@ -158,8 +150,6 @@ func extractT1Objects(models [][]T1SearchModel) ([]*Eli5T1Model) {
 		fmt.Println("C")
 		for _, x := range c {
 			children := x.Data.Children
-			fmt.Println("LENGTH OF CHILDREN")
-			fmt.Println(len(children))
 			for _, d := range children {
 				if d.Kind == "t1" {
 					data := d.Data
