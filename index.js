@@ -132,13 +132,13 @@ function parseJson(json) {
 	let responseObj = JSON.parse(json);
 	var array = [];
 	responseObj.t1objects.forEach(function(t1) {
-		var body = t1.body;
+		var body = t1.id;
 		
 		// var wordDef = entity.definition;
 		// var wordAndDef = "This is the definition of " + keyWord + ":\n" + wordDef;
 		array.push(body);
 	}, this);
-	return array.join("\n");
+	return array.join("-");
 }
 
 // var obj = parseMessage("", "http://cdn2-www.dogtime.com/assets/uploads/gallery/shiba-inu-puppies/shiba-inu-puppy-13.jpg");
