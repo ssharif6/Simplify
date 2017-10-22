@@ -166,7 +166,7 @@ function parseImageJson(json, sender) {
 	var texts = responseObj["texts"];
 	var lables = responseObj["labels"];
 	var sum = 0;
-	if (texts && labels && (texts.length > lables.length)) {
+	if (texts && lables && (texts.length > lables.length)) {
 		if (texts && texts.length > 0) {
 			for(var i = 1; i < texts.length; i++) {
 				var obj = texts[i];
