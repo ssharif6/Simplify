@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6273ad31-b14b-42d0-af61-1cb2f015b468" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/servers/handlers/query.go" afterPath="$PROJECT_DIR$/servers/handlers/query.go" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/servers/handlers/text.go" afterPath="$PROJECT_DIR$/servers/handlers/text.go" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -41,8 +40,8 @@
       <file leaf-file-name="text.go" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/servers/handlers/text.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="586">
-              <caret line="76" column="27" lean-forward="false" selection-start-line="76" selection-start-column="27" selection-end-line="76" selection-end-column="27" />
+            <state relative-caret-position="604">
+              <caret line="95" column="4" lean-forward="false" selection-start-line="95" selection-start-column="4" selection-end-line="95" selection-end-column="4" />
               <folding>
                 <element signature="e#18#192#0" expanded="true" />
               </folding>
@@ -63,8 +62,8 @@
       <file leaf-file-name="query.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/servers/handlers/query.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="188">
-              <caret line="73" column="52" lean-forward="true" selection-start-line="73" selection-start-column="52" selection-end-line="73" selection-end-column="52" />
+            <state relative-caret-position="472">
+              <caret line="103" column="11" lean-forward="false" selection-start-line="103" selection-start-column="11" selection-end-line="103" selection-end-column="11" />
               <folding>
                 <element signature="e#18#161#0" expanded="true" />
               </folding>
@@ -117,7 +116,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>submi</find>
       <find>body_html</find>
       <find>collapsed</find>
       <find>body</find>
@@ -137,7 +135,6 @@
       <find>CHILDREN OBJECT</find>
       <find>Body</find>
       <find>+ &quot;.json</find>
-      <find>LENGTH</find>
       <find>DATA</find>
       <find>DATA@</find>
       <find>fmt.print</find>
@@ -147,6 +144,8 @@
       <find>fmt.Printl</find>
       <find>LENGTH OF</find>
       <find>getEli5</find>
+      <find>LENGTH</find>
+      <find>LENGTH IS</find>
     </findStrings>
   </component>
   <component name="GOROOT" path="/usr/local/go" />
@@ -535,8 +534,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/servers/handlers/query.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="188">
-          <caret line="73" column="52" lean-forward="true" selection-start-line="73" selection-start-column="52" selection-end-line="73" selection-end-column="52" />
+        <state relative-caret-position="472">
+          <caret line="103" column="11" lean-forward="false" selection-start-line="103" selection-start-column="11" selection-end-line="103" selection-end-column="11" />
           <folding>
             <element signature="e#18#161#0" expanded="true" />
           </folding>
@@ -545,8 +544,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/servers/handlers/text.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="586">
-          <caret line="76" column="27" lean-forward="false" selection-start-line="76" selection-start-column="27" selection-end-line="76" selection-end-column="27" />
+        <state relative-caret-position="604">
+          <caret line="95" column="4" lean-forward="false" selection-start-line="95" selection-start-column="4" selection-end-line="95" selection-end-column="4" />
           <folding>
             <element signature="e#18#192#0" expanded="true" />
           </folding>
