@@ -90,34 +90,42 @@ function callAPI(userInput) {
 		  'Content-Type': 'application/json',
 	  }
 	};
+	
 	var req = https.request(options, function(res) {
 		// console.log('Status: ' + res.statusCode);
 		// console.log('Headers: ' + JSON.stringify(res.headers));
 		res.setEncoding('utf8');
+		var response = "";		
 		res.on('data', function (body) {
 		//   console.log('Body: ' + body);
-			parseJson(body);
+			response += parseJson(body);
 		});
-	  });
-	  req.on('error', function(e) {
-		console.log('problem with request: ' + e.message);
-	  });
-	  // write data to request body
-	//   req.write('{"string": "Hello, World"}');
-	  req.write(userInput);
-	  req.end();
-
+		res.on('end', function () {
+			console.log("Response: " + response);
+			return response;
+		  });
+	});
+	req.on('error', function(e) {
+	console.log('problem with request: ' + e.message);
+	});
+	// write data to request body
+//   req.write('{"string": "Hello, World"}');
+	req.write(userInput);
+	req.end();
 }
 
 function parseJson(json) {
 	let responseObj = JSON.parse(json);
+	var array = [];
 	responseObj.entities.forEach(function(entity) {
-		console.log(entity.name);
+		array.push(entity.name);
 	}, this);
+	return array.join("-");
 }
 
 var obj = parseText("What is the difference between linux kernel and shell?");
-callAPI(obj);
+var x = callAPI(obj);
+console.log(x);
 
 // let test = {
 // 	"input": "Hello there friend!",
