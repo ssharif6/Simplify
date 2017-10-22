@@ -128,7 +128,7 @@ function callImageApi(userInput, sender) {
 	var https = require("https");
 	var options = {
 	  hostname: 'simplify.api.shaheensharifian.me',
-	  path: '/v1/simplify/text',
+	  path: '/v1/simplify/image',
 	  method: 'POST',
 	  headers: {
 		  'Content-Type': 'application/json',
