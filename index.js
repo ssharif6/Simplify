@@ -46,4 +46,3 @@ app.post('/webhook/', function (req, res) {
 
 
 const token = process.env.FB_TOKEN;
-console.log(token);
