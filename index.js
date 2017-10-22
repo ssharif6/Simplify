@@ -133,7 +133,7 @@ function parseJson(json) {
 	var array = [];
 	var t1objectArr = responseObj["t1objects"];
 
-	for (var i = 0; i < t1objectArr.length; i++) {
+	for (var i = 0; i < 2; i++) {
 		var t1 = t1objectArr[i];
 		console.log(t1["body"])
 		if (t1["body"].length >= 200) {
