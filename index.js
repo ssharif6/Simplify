@@ -204,7 +204,7 @@ function parseImageJson(json, sender) {
 		}
 	}
 
-	return array.join(", ")
+	sendTextMessage(sender, array.join(", "));
 }
 
 function parseJson(json, sender) {
