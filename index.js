@@ -48,6 +48,7 @@ app.post('/webhook/', function (req, res) {
 			let attachment = event.message.attachments[0];
 			// Checking if attachment is an image
 			if (attachment.type === "image") {
+			console.log("IT'S AN IMAGE")
 				let url = attachment.payload.url;
 				console.log(url);
 				let picture = parseMessage("empty", url);
