@@ -38,13 +38,20 @@ app.post('/webhook/', function (req, res) {
 	    let sender = event.sender.id
 	    if (event.message && event.message.text) {
 			let text = event.message.text
-			// PARSE TEXT HERE
-			let input = parseText(text);
+			let input = parseMessage(text, "");
 			let inputRequest = callAPI(input, sender);
-			// POST TO SERVER
-			// let response = responseHandle();
 
-	    }
+		}	
+		// Checking for attachments
+		if (event.message && event.message.attachments) {
+			let attachment = event.message.attachments[0];
+			// Checking if attachment is an image
+			if (attachment.type === "image") {
+				let url = attachment.payload.url;
+				let picture = parseMessage("", url);
+				let inputRequest = callAPI(picture, sender);
+			} 
+		  }
     }
     res.sendStatus(200)
 });
@@ -69,10 +76,10 @@ function sendTextMessage(sender, text) {
 }
 
 // TODO: Eventually handle things that aren't text like stickers or images
-function parseText(text) {
+function parseMessage(text, url) {
 	var obj = {
 		"input": text,
-		"url": ""
+		"url": url
 	}
 	return JSON.stringify(obj);
 }
@@ -95,12 +102,11 @@ function callAPI(userInput, sender) {
 		// console.log('Headers: ' + JSON.stringify(res.headers));
 		res.setEncoding('utf8');
 		var response = "";		
-		res.on('data', function (body) {
+		res.on('data', function(body) {
 		//   console.log('Body: ' + body);
 			response += parseJson(body);
 		});
-		res.on('end', function () {
-			console.log("Response: " + response);
+		res.on('end', function() {
 			sendTextMessage(sender, response);
 		  });
 	});
@@ -116,25 +122,16 @@ function callAPI(userInput, sender) {
 function parseJson(json) {
 	let responseObj = JSON.parse(json);
 	var array = [];
-	responseObj.entities.forEach(function(entity) {
-		array.push(entity.name);
+	responseObj.forEach(function(entity) {
+		var keyWord = entity.name;
+		var wordDef = entity.definition;
+		var wordAndDef = "This is the definition of " + keyWord + ":\n" + wordDef;
+		array.push(wordAndDef);
 	}, this);
-	return array.join("-");
+	return array.join("\n");
 }
 
-var obj = parseText("What is the difference between linux kernel and shell?");
+var obj = parseMessage("What is the difference between linux kernel and shell?", "");
 var x = callAPI(obj);
 console.log(x);
-
-// let test = {
-// 	"input": "Hello there friend!",
-// 	"url": ""
-// }
-
-// console.log(callAPI(test));
-
-// function responseHandle(responseObj) {
-// 	let json = JSON.parse(responseObj);
-
-// }
 
