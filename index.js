@@ -181,7 +181,7 @@ function callImageApi(userInput, sender) {
 		});
 		res.on('end', function() {
 
-			parseJson(shit, sender);
+			parseImageJson(shit, sender);
 		  });
 	});
 	req.on('error', function(e) {
