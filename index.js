@@ -116,7 +116,8 @@ function callAPI(userInput, sender) {
 		});
 		res.on('end', function() {
 
-			sendTextMessage(sender, parseJson(shit));
+			parseJson(shit, sender);
+			// sendTextMessage(sender, parseJson(shit));
 		  });
 	});
 	req.on('error', function(e) {
@@ -128,18 +129,18 @@ function callAPI(userInput, sender) {
 	req.end();
 }
 
-function parseJson(json) {
+function parseJson(json, sender) {
 	let responseObj = JSON.parse(json);
 	var array = [];
 	var t1objectArr = responseObj["t1objects"];
 
-	for (var i = 0; i < 2; i++) {
+	for (var i = 0; i < t1objectArr.length; i++) {
 		var t1 = t1objectArr[i];
 		console.log(t1["body"])
-		if (t1["body"].length >= 200) {
-			array.push(t1["body"].substring(0,200));
+		if (t1["body"].length >= 640) {
+			sendTextMessage(sender, t1["body"].substring(0,600));
 		} else {
-			array.push(t1["body"]);	
+			sendTextMessage(sender, t1["body"]);
 		}
 	}
 	// responseObj.entities.forEach(function(entity) {
