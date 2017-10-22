@@ -70,8 +70,6 @@ func QueryEli5(entities []*languagepb.Entity) ([]*Eli5T3Model, error) {
 	responseObjs := []*T3SearchModel{}
 	client := &http.Client{}
 	for _, c := range entities {
-		fmt.Println("URL@#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-		fmt.Println(eli5BaseUrl + c.Name + "&" + eli5SuffixUrl)
 
 		req, err := http.NewRequest("GET", eli5BaseUrl+c.Name+"&"+eli5SuffixUrl, nil)
 		if err != nil {
@@ -85,11 +83,6 @@ func QueryEli5(entities []*languagepb.Entity) ([]*Eli5T3Model, error) {
 			return nil, err
 		}
 
-		//eli5Resp, err := http.Get(eli5BaseUrl + c.Name + "&" + eli5SuffixUrl)
-		//if err != nil {
-		//	fmt.Println("1")
-		//	return nil, err
-		//}
 		eli5Res := &T3SearchModel{}
 		buf := new(bytes.Buffer)
 		buf.ReadFrom(resp.Body)
@@ -117,8 +110,10 @@ func Query(models []*Eli5T3Model) ([]*Eli5T1Model, error) {
 	responseObjs := [][]T1SearchModel{}
 	for _, c := range models {
 		url := c.Url
+		fmt.Println(url)
 
-		req, err := http.NewRequest("GET", url + ".json", nil)
+		req, err := http.NewRequest("GET", url + ".json?sort=top", nil)
+		//req, err := http.NewRequest("GET","https://www.reddit.com/r/explainlikeimfive/comments/5u2nkx/eli5_what_is_a_linux_kernel/.json?sort=top", nil)
 		req.Header.Set("User-Agent", "your bot 0.1")
 		if err != nil {
 			return nil, err
