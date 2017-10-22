@@ -40,11 +40,10 @@ app.post('/webhook/', function (req, res) {
 			let text = event.message.text
 			// PARSE TEXT HERE
 			let input = parseText(text);
-			let inputRequest = callAPI(input);
+			let inputRequest = callAPI(input, sender);
 			// POST TO SERVER
 			// let response = responseHandle();
 
-		    sendTextMessage(sender, inputRequest);
 	    }
     }
     res.sendStatus(200)
@@ -80,7 +79,7 @@ function parseText(text) {
 
 const token = process.env.FB_TOKEN;
 
-function callAPI(userInput) {
+function callAPI(userInput, sender) {
 	var https = require("https");
 	var options = {
 	  hostname: 'simplify.api.shaheensharifian.me',
@@ -102,7 +101,7 @@ function callAPI(userInput) {
 		});
 		res.on('end', function () {
 			console.log("Response: " + response);
-			return response;
+			sendTextMessage(sender, response);
 		  });
 	});
 	req.on('error', function(e) {
