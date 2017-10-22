@@ -131,7 +131,7 @@ function parseJson(json) {
 	return array.join("\n");
 }
 
-var obj = parseMessage("What is the difference between linux kernel and shell?", "");
-var x = callAPI(obj);
-console.log(x);
+// var obj = parseMessage("What is the difference between linux kernel and shell?", "");
+// var x = callAPI(obj);
+// console.log(x);
 
