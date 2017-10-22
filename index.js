@@ -43,15 +43,16 @@ app.post('/webhook/', function (req, res) {
 
 		}	
 		// Checking for attachments
-		if (event.message && event.message.attachments) {
-			let attachment = event.message.attachments[0];
-			// Checking if attachment is an image
-			if (attachment.type === "image") {
-				let url = attachment.payload.url;
-				let picture = parseMessage("", url);
-				let inputRequest = callAPI(picture, sender);
-			} 
-		  }
+		// if (event.message && event.message.attachments) {
+		// 	let attachment = event.message.attachments[0];
+		// 	// Checking if attachment is an image
+		// 	if (attachment.type === "image") {
+		// 		let url = attachment.payload.url;
+		// 		console.log(url);
+		// 		let picture = parseMessage("", url);
+		// 		let inputRequest = callAPI(picture, sender);
+		// 	} 
+		//   }
     }
     res.sendStatus(200)
 });
@@ -131,7 +132,7 @@ function parseJson(json) {
 	return array.join("\n");
 }
 
-// var obj = parseMessage("What is the difference between linux kernel and shell?", "");
+// var obj = parseMessage("", "http://cdn2-www.dogtime.com/assets/uploads/gallery/shiba-inu-puppies/shiba-inu-puppy-13.jpg");
 // var x = callAPI(obj);
 // console.log(x);
 
