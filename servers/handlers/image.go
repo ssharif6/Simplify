@@ -25,7 +25,7 @@ func ImageHandler(w http.ResponseWriter, r *http.Request) {
 		// request checking
 		ro := &RequestObject{}
 		err := json.NewDecoder(r.Body).Decode(ro)
-		if len(ro.Input) == 0 {
+		if len(ro.Url) == 0 {
 			http.Error(w, "input cannot be empty", http.StatusBadRequest)
 		}
 		if err != nil {
