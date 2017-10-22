@@ -171,7 +171,7 @@ function parseImageJson(json, sender) {
 		}
 	}
 
-	sendTextMessage(sender, array.join(", "));
+	sendTextMessage(sender, array.join(" "));
 }
 
 function parseJson(json, sender) {
