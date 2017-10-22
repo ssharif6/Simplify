@@ -164,9 +164,9 @@ function parseImageJson(json, sender) {
 	console.log(responseObj);
 	var array = [];
 	var texts = responseObj["texts"];
-	var lables = responseObj["labels"];
+	var labels = responseObj["labels"];
 	var sum = 0;
-	if (texts && lables && (texts.length > lables.length)) {
+	if (texts && labels && (texts.length > labels.length)) {
 		if (texts && texts.length > 0) {
 			for(var i = 1; i < texts.length; i++) {
 				var obj = texts[i];
@@ -181,8 +181,8 @@ function parseImageJson(json, sender) {
 
 	} else {
 		if (labels && labels.length > 0) {
-			for(var i = 0; i < texts.length; i++) {
-				var obj = texts[i];
+			for(var i = 0; i < labels.length; i++) {
+				var obj = labels[i];
 				if (sum + obj.length <= 300) {
 					sum += obj.length
 					array.push(obj);
