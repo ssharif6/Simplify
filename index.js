@@ -131,13 +131,14 @@ function callAPI(userInput, sender) {
 function parseJson(json) {
 	let responseObj = JSON.parse(json);
 	var array = [];
-	responseObj.entities.forEach(function(entity) {
-		var keyWord = entity.name;
+	responseObj.t1objects.forEach(function(t1) {
+		var body = t1.body;
+		
 		// var wordDef = entity.definition;
 		// var wordAndDef = "This is the definition of " + keyWord + ":\n" + wordDef;
-		array.push(keyWord);
+		array.push(body);
 	}, this);
-	return array.join("-");
+	return array.join("\n");
 }
 
 // var obj = parseMessage("", "http://cdn2-www.dogtime.com/assets/uploads/gallery/shiba-inu-puppies/shiba-inu-puppy-13.jpg");
